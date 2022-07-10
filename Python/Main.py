@@ -28,6 +28,12 @@ def main():
 
 		for (x, y, w, h) in faces:
 				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+		faceROI = gray[y:y+h,x:x+w]
+		eyes = eyeCascade.detectMultiScale(faceROI)
+		for (x2,y2,w2,h2) in eyes:
+			eye_center = (x + x2 + w2//2, y + y2 + h2//2)
+			radius = int(round((w2 + h2)*0.25))
+			frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
 
 		cv2.imshow('frame', frame)
 
