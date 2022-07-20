@@ -6,13 +6,19 @@ def Save(): #Saves image data usig json format
     pass
 
 def main():
+	y = 0
+	h = 0
+	x = 0
+	w = 0
 	cap = cv2.VideoCapture()
 	# The device number might be 0 or 1 depending on the device and the webcam
 	cap.open(0, cv2.CAP_DSHOW)
 
-	faceCascade = cv2.CascadeClassifier("Python\data\haarcascades\haarcascade_frontalface_default.xml")
+	faceCascade = cv2.CascadeClassifier("data\haarcascades\haarcascade_frontalface_default.xml")
 
-	eyeCascade = cv2.CascadeClassifier("Python\data\haarcascades\haarcascade_eye_tree_eyeglasses.xml")
+	eyeCascade = cv2.CascadeClassifier("data\haarcascades\haarcascade_eye_tree_eyeglasses.xml")
+
+	profileCascade = cv2.CascadeClassifier("data\haarcascades\haarcascade_profileface.xml")
 
 	while(True):
 		ret, frame = cap.read()
@@ -27,13 +33,17 @@ def main():
 			)
 
 		for (x, y, w, h) in faces:
-				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 		faceROI = gray[y:y+h,x:x+w]
 		eyes = eyeCascade.detectMultiScale(faceROI)
 		for (x2,y2,w2,h2) in eyes:
 			eye_center = (x + x2 + w2//2, y + y2 + h2//2)
 			radius = int(round((w2 + h2)*0.25))
 			frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
+
+		side = profileCascade.detectMultiScale(gray)
+		for (x, y, w, h) in side:
+			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 		cv2.imshow('frame', frame)
 
