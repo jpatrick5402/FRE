@@ -29,7 +29,7 @@ def main():
 		ret, frame = cap.read()
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		if test > 100:
+		if test > 50:
 			print("Face Detected")
 			time = "data/Captures/Capture_" + str(datetime.now()).replace(":", "-") + ".jpg"
 			print(time)
@@ -68,7 +68,7 @@ def main():
 
 		if type(faces) == ndarray or type(eyes) == ndarray or type(side) == ndarray:
 			test = test + 3
-		else:
+		elif test > 0:
 			test = test - 1
 
 
