@@ -64,7 +64,7 @@ def main():
 
 		
 
-		cv2.imshow('frame', frame)
+		cv2.imshow('VideoCaputure', frame)
 
 		if type(faces) == ndarray or type(eyes) == ndarray or type(side) == ndarray:
 			test = test + 3
@@ -76,6 +76,7 @@ def main():
 
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
+
 	cap.release()
 	cv2.destroyAllWindows()
 
