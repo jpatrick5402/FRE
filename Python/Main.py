@@ -25,11 +25,14 @@ def main():
 
 	profileCascade = cv2.CascadeClassifier("data\haarcascades\haarcascade_profileface.xml")
 
+	fullCascade = cv2.CascadeClassifier("data\haarcascades\haarcascade_fullbody.xml")
+
+
 	while(True):
 		ret, frame = cap.read()
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-		if test > 50:
+		print(test)
+		if test > 20:
 			print("Face Detected")
 			time = "data/Captures/Capture_" + str(datetime.now()).replace(":", "-") + ".jpg"
 			print(time)
@@ -62,11 +65,13 @@ def main():
 		for (x, y, w, h) in side:
 			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-		
+		full = fullCascade.detectMultiScale(gray)
+		for (x, y, w, h) in full:
+			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 		cv2.imshow('VideoCaputure', frame)
 
-		if type(faces) == ndarray or type(eyes) == ndarray or type(side) == ndarray:
+		if type(faces) == ndarray or type(eyes) == ndarray or type(side) == ndarray or type(full) == ndarray:
 			test = test + 3
 		elif test > 0:
 			test = test - 1
