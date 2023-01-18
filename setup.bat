@@ -1,5 +1,6 @@
 @echo off
 
 winget install python
-pip install cv2
+pip install --upgrade pip
+pip install opencv-python
 pip install numpy
