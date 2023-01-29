@@ -1,30 +1,41 @@
-#pip install opencv-python
 import cv2
-import json
-from datetime import datetime
-from numpy import array, ndarray
 
 def main():
-	showVid(drawLines=True)
+	giveOption()
 	return 0
 
-def Save(): #Saves image data using json format
-    pass
+def giveOption():
+	option = 0
+	choices = ["0","1","2"]
+	while True:
+		print("Options (0 to exit):")
+		print("1 - Show Video Output")
+		print("2 - Show Video Output with facial detection")
+		option = input("Choose an option: ")
+
+		while option not in choices:
+			print("Invalid option, try again")
+			option = input("Choose an option: ")
+		if option == "0":
+			print("Exiting Program")
+			break
+		elif option == "1":
+			showVid()
+		elif option == "2":
+			showVid(True)
 
 def showVid(drawLines=False):
-	y = 0
-	h = 0
-	x = 0
-	w = 0
-
-	test = 0
-
 	cap = cv2.VideoCapture()
 	# The device number might be 0 or 1 depending on the device and the webcam
 	cap.open(0, cv2.CAP_DSHOW)
 
-	ret, frame = cap.read()
-	if drawLines:
+	if drawLines == True:
+		y = 0
+		h = 0
+		x = 0
+		w = 0
+
+		print("Drawing Lines (q to exit)")
 
 		faceCascade = cv2.CascadeClassifier(".\haarcascade_frontalface_default.xml")
 
@@ -35,6 +46,8 @@ def showVid(drawLines=False):
 		fullCascade = cv2.CascadeClassifier(".\haarcascade_fullbody.xml")
 
 		while(True):
+			ret, frame = cap.read()
+
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 			faces = faceCascade.detectMultiScale(
@@ -66,13 +79,16 @@ def showVid(drawLines=False):
 
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
-	else:
+
+	elif drawLines == False:
+		print("Showing Raw Camera Output (q to exit)")
 		while True:
+			ret, frame = cap.read()
+
 			cv2.imshow('VideoCapture', frame)
 
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
-
 
 	cap.release()
 	cv2.destroyAllWindows()
