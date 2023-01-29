@@ -8,7 +8,7 @@ def main():
 	showVid(drawLines=True)
 	return 0
 
-def Save(): #Saves image data usig json format
+def Save(): #Saves image data using json format
     pass
 
 def showVid(drawLines=False):
