@@ -107,7 +107,7 @@ def detectFace():
 	x = 0
 	w = 0
 
-	print("Drawing Lines (^C to exit)")
+	print("Detecting Faces (^C to exit)")
 
 	faceCascade = cv2.CascadeClassifier(".\haarcascade_frontalface_default.xml")
 
