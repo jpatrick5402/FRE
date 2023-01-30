@@ -4,8 +4,7 @@ def main():
 	return 0
 
 def giveOption():
-	option = 0
-	choices = ["0","1","2", "3"]
+	choices = ["0","1","2","3"]
 	while True:
 		print("Options:")
 		print("0 - Exit")
