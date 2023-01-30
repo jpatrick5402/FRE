@@ -148,6 +148,11 @@ def detectFace():
 			return True
 
 def detectColor(color):
+	cap = cv2.VideoCapture()
+	cap.open(0, cv2.CAP_DSHOW)
+	while(True):
+		ret, frame = cap.read()
+		color = cv2.cvtColor(frame, )
 	pass
 
 if __name__ == "__main__":
