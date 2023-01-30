@@ -1,17 +1,18 @@
 import cv2
 
 def main():
-	giveOption()
 	return 0
 
 def giveOption():
 	option = 0
-	choices = ["0","1","2"]
+	choices = ["0","1","2", "3"]
 	while True:
-		print("Options (0 to exit):")
+		print("Options:")
+		print("0 - Exit")
 		print("1 - Show Video Output")
 		print("2 - Show Video Output with facial detection")
-		option = input("Choose an option: ")
+		print("3 - Wait for a face to be detected")
+		option = input("\nChoose an option: ")
 
 		while option not in choices:
 			print("Invalid option, try again")
@@ -23,10 +24,14 @@ def giveOption():
 			showVid()
 		elif option == "2":
 			showVid(True)
+		elif option == "3":
+			detectFace()
+
+		print("\r\n")
 
 def showVid(drawLines=False):
 	cap = cv2.VideoCapture()
-	# The device number might be 0 or 1 depending on the device and the webcam
+	# The device number might be 0 or 1 depending on the device
 	cap.open(0, cv2.CAP_DSHOW)
 
 	if drawLines == True:
@@ -92,6 +97,59 @@ def showVid(drawLines=False):
 
 	cap.release()
 	cv2.destroyAllWindows()
+
+def detectFace():
+	cap = cv2.VideoCapture()
+	# The device number might be 0 or 1 depending on the device
+	cap.open(0, cv2.CAP_DSHOW)
+
+	y = 0
+	h = 0
+	x = 0
+	w = 0
+
+	print("Drawing Lines (^C to exit)")
+
+	faceCascade = cv2.CascadeClassifier(".\haarcascade_frontalface_default.xml")
+
+	eyeCascade = cv2.CascadeClassifier(".\haarcascade_eye_tree_eyeglasses.xml")
+
+	profileCascade = cv2.CascadeClassifier(".\haarcascade_profileface.xml")
+
+	while(True):
+		faceBuffer = 0
+		ret, frame = cap.read()
+		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+		faces = faceCascade.detectMultiScale(
+				gray,
+				scaleFactor=1.1,
+				minNeighbors=5,
+				minSize=(30, 30)
+			)
+
+		for (x, y, w, h) in faces:
+			faceBuffer = faceBuffer + 1
+			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+		faceROI = gray[y:y+h,x:x+w]
+		eyes = eyeCascade.detectMultiScale(faceROI)
+		for (x2,y2,w2,h2) in eyes:
+			faceBuffer = faceBuffer + 1
+			eye_center = (x + x2 + w2//2, y + y2 + h2//2)
+			radius = int(round((w2 + h2)*0.25))
+			frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
+
+		side = profileCascade.detectMultiScale(gray)
+		for (x, y, w, h) in side:
+			faceBuffer = faceBuffer + 1
+			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+		if faceBuffer >= 2:
+			return True
+
+def detectColor(color):
+	pass
 
 if __name__ == "__main__":
 	main()
