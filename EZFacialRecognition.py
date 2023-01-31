@@ -12,7 +12,7 @@ def main():
 
 def checkCameras(numberOfCameras):
 	for i in range(numberOfCameras):
-		cap = cv2.VideoCapture(i+1,cv2.CAP_DSHOW)
+		cap = cv2.VideoCapture(i,cv2.CAP_DSHOW)
 		if not cap.isOpened() or cap is None:
 			print(f"Camera {i}: not detected")
 		elif cap.isOpened():

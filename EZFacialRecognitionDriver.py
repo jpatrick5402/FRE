@@ -1,2 +1,1 @@
-import Main
-
+import EZFacialRecognition as EZ
