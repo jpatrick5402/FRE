@@ -38,6 +38,7 @@ def giveOption():
 			break
 		elif option == "1":
 			cams = input("How many Cameras are you using: ")
+			print("\r\n")
 			checkCameras(int(cams))
 		elif option == "2":
 			showVid()
@@ -50,10 +51,10 @@ def giveOption():
 
 def showVid(drawLines=False):
 	cap = cv2.VideoCapture()
-	if not cap.isOpened() or cap is None:
-		print("Camera not detected")
-		return 1;
 	cap.open(0, cv2.CAP_DSHOW)
+	if not cap.isOpened() or cap is None:
+		print("No Camera detected")
+		return 1;
 
 	if drawLines == True:
 		y = 0
@@ -106,26 +107,25 @@ def showVid(drawLines=False):
 				if cv2.waitKey(1) & 0xFF == ord('q'):
 					break
 
-				elif drawLines == False:
-					print("Showing Raw Camera Output (q to exit)")
-					while True:
-						ret, frame = cap.read()
+	elif drawLines == False:
+		print("Showing Raw Camera Output (q to exit)")
+		while True:
+			ret, frame = cap.read()
 
-						cv2.imshow('VideoCapture', frame)
+			cv2.imshow('VideoCapture', frame)
 
-						if cv2.waitKey(1) & 0xFF == ord('q'):
-							break
+			if cv2.waitKey(1) & 0xFF == ord('q'):
+				break
 
-				cap.release()
-				cv2.destroyAllWindows()
+	cap.release()
+	cv2.destroyAllWindows()
 
 def detect(option):
 	cap = cv2.VideoCapture()
-	if not cap.isOpened() or cap is None:
-		print("Camera not detected")
-		return 1;	
-	# The device number might be 0 or 1 depending on the device
 	cap.open(0, cv2.CAP_DSHOW)
+	if not cap.isOpened() or cap is None:
+		print("No Camera detected")
+		return 1;
 
 	if option == "face":
 		y = 0
