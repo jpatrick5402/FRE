@@ -1,5 +1,10 @@
 import cv2
 
+# def checkCameras(numberOfCameras):
+# def giveOption():
+# def showVid(drawLines=False):
+# def detect(option, timout=None):
+
 def main():
 	checkCameras(1)
 	giveOption()
@@ -38,8 +43,16 @@ def giveOption():
 			break
 		elif option == "1":
 			cams = input("How many Cameras are you using: ")
+			while True:
+				try:
+					cams = int(cams)
+					break;
+				except:
+					print("Invalid amount, try again")
+					cams = input("How many Cameras are you using: ")
+					continue
 			print("\r\n")
-			checkCameras(int(cams))
+			checkCameras(cams)
 		elif option == "2":
 			showVid()
 		elif option == "3":
@@ -120,7 +133,7 @@ def showVid(drawLines=False):
 	cap.release()
 	cv2.destroyAllWindows()
 
-def detect(option):
+def detect(option, timeout=None):
 	cap = cv2.VideoCapture()
 	cap.open(0, cv2.CAP_DSHOW)
 	if not cap.isOpened() or cap is None:
