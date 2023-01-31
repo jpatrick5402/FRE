@@ -77,13 +77,10 @@ def showVid(drawLines=False):
 
 		print("Drawing Lines (q to exit)")
 
-		faceCascade = cv2.CascadeClassifier(".\haarcascade_frontalface_default.xml")
-
-		eyeCascade = cv2.CascadeClassifier(".\haarcascade_eye_tree_eyeglasses.xml")
-
-		profileCascade = cv2.CascadeClassifier(".\haarcascade_profileface.xml")
-
-		fullCascade = cv2.CascadeClassifier(".\haarcascade_fullbody.xml")
+		faceCascade = cv2.CascadeClassifier(".\haar\haarcascade_frontalface_default.xml")
+		eyeCascade = cv2.CascadeClassifier(".\haar\haarcascade_eye_tree_eyeglasses.xml")
+		profileCascade = cv2.CascadeClassifier(".\haar\haarcascade_profileface.xml")
+		fullCascade = cv2.CascadeClassifier(".\haar\haarcascade_fullbody.xml")
 
 		while(True):
 				ret, frame = cap.read()
@@ -148,11 +145,9 @@ def detect(option, timeout=None):
 
 		print("Detecting Faces (^C to exit)")
 
-		faceCascade = cv2.CascadeClassifier(".\haarcascade_frontalface_default.xml")
-
-		eyeCascade = cv2.CascadeClassifier(".\haarcascade_eye_tree_eyeglasses.xml")
-
-		profileCascade = cv2.CascadeClassifier(".\haarcascade_profileface.xml")
+		faceCascade = cv2.CascadeClassifier(".\haar\haarcascade_frontalface_default.xml")
+		eyeCascade = cv2.CascadeClassifier(".\haar\haarcascade_eye_tree_eyeglasses.xml")
+		profileCascade = cv2.CascadeClassifier(".\haar\haarcascade_profileface.xml")
 
 		while(True):
 			faceBuffer = 0
