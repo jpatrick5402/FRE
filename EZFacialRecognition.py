@@ -133,6 +133,7 @@ def showVid(drawLines=False):
 def detect(option, timeout=None):
 	cap = cv2.VideoCapture()
 	cap.open(0, cv2.CAP_DSHOW)
+
 	if not cap.isOpened() or cap is None:
 		print("No Camera detected")
 		return 1;
@@ -169,7 +170,7 @@ def detect(option, timeout=None):
 				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 			if faceBuffer >= 2:
-				return True
+				return faces
 
 	elif option == "eye":
 		y = 0
@@ -179,24 +180,37 @@ def detect(option, timeout=None):
 
 		print("Detecting Eyes (^C to exit)")
 
+		faceCascade = cv2.CascadeClassifier(".\haar\haarcascade_frontalface_default.xml")
+
 		eyeCascade = cv2.CascadeClassifier(".\haar\haarcascade_eye_tree_eyeglasses.xml")
 
-		eyebuffer = 0
+		eyeBuffer = 0
 		while(True):
 
 			ret, frame = cap.read()
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+			faces = faceCascade.detectMultiScale(
+						gray,
+						scaleFactor=1.1,
+						minNeighbors=5,
+						minSize=(30, 30)
+					)
+
+			for (x, y, w, h) in faces:
+					cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
 			faceROI = gray[y:y+h,x:x+w]
 			eyes = eyeCascade.detectMultiScale(faceROI)
 			for (x2,y2,w2,h2) in eyes:
 				eye_center = (x + x2 + w2//2, y + y2 + h2//2)
+				eyeBuffer = eyeBuffer + 1
 				radius = int(round((w2 + h2)*0.25))
 				frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
-				eyebuffer = eyebuffer + 1
-			
-			if eyebuffer >= 2:
-				return True
+				
+
+			if eyeBuffer >= 2:
+				return eye_center
 
 	elif option == "body":
 		y = 0
