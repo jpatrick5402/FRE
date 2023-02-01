@@ -146,11 +146,10 @@ def detect(option, timeout=None):
 		print("Detecting Faces (^C to exit)")
 
 		faceCascade = cv2.CascadeClassifier(".\haar\haarcascade_frontalface_default.xml")
-		eyeCascade = cv2.CascadeClassifier(".\haar\haarcascade_eye_tree_eyeglasses.xml")
 		profileCascade = cv2.CascadeClassifier(".\haar\haarcascade_profileface.xml")
-
+		faceBuffer = 0
 		while(True):
-			faceBuffer = 0
+			
 			ret, frame = cap.read()
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -165,17 +164,69 @@ def detect(option, timeout=None):
 				faceBuffer = faceBuffer + 1
 				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
+			side = profileCascade.detectMultiScale(gray)
+			for (x, y, w, h) in side:
+				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+			if faceBuffer >= 2:
+				return True
+
+	elif option == "eye":
+		y = 0
+		h = 0
+		x = 0
+		w = 0
+
+		print("Detecting Eyes (^C to exit)")
+
+		eyeCascade = cv2.CascadeClassifier(".\haar\haarcascade_eye_tree_eyeglasses.xml")
+
+		eyebuffer = 0
+		while(True):
+			
+			ret, frame = cap.read()
+			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
 			faceROI = gray[y:y+h,x:x+w]
 			eyes = eyeCascade.detectMultiScale(faceROI)
 			for (x2,y2,w2,h2) in eyes:
-				faceBuffer = faceBuffer + 1
 				eye_center = (x + x2 + w2//2, y + y2 + h2//2)
 				radius = int(round((w2 + h2)*0.25))
 				frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
+				eyebuffer = eyebuffer + 1
+
+			if eyebuffer >= 2:
+				return True
+
+	elif option == "body":
+		y = 0
+		h = 0
+		x = 0
+		w = 0
+
+		print("Detecting Bodies (^C to exit)")
+
+		fullCascade = cv2.CascadeClassifier(".\haar\haarcascade_fullbody.xml")
+
+		body = 0
+		while(True):
+			
+			ret, frame = cap.read()
+			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+			faces = faceCascade.detectMultiScale(
+					gray,
+					scaleFactor=1.1,
+					minNeighbors=5,
+					minSize=(30, 30)
+				)
+
+			for (x, y, w, h) in faces:
+				faceBuffer = faceBuffer + 1
+				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 			side = profileCascade.detectMultiScale(gray)
 			for (x, y, w, h) in side:
-				faceBuffer = faceBuffer + 1
 				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 			if faceBuffer >= 2:
