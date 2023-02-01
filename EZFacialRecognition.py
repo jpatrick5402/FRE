@@ -183,7 +183,7 @@ def detect(option, timeout=None):
 
 		eyebuffer = 0
 		while(True):
-			
+
 			ret, frame = cap.read()
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -194,7 +194,7 @@ def detect(option, timeout=None):
 				radius = int(round((w2 + h2)*0.25))
 				frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
 				eyebuffer = eyebuffer + 1
-
+			
 			if eyebuffer >= 2:
 				return True
 
@@ -208,28 +208,18 @@ def detect(option, timeout=None):
 
 		fullCascade = cv2.CascadeClassifier(".\haar\haarcascade_fullbody.xml")
 
-		body = 0
+		bodybuffer = 0
 		while(True):
 			
 			ret, frame = cap.read()
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-			faces = faceCascade.detectMultiScale(
-					gray,
-					scaleFactor=1.1,
-					minNeighbors=5,
-					minSize=(30, 30)
-				)
-
-			for (x, y, w, h) in faces:
-				faceBuffer = faceBuffer + 1
+			full = fullCascade.detectMultiScale(gray)
+			for (x, y, w, h) in full:
 				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+				bodybuffer = bodybuffer + 1
 
-			side = profileCascade.detectMultiScale(gray)
-			for (x, y, w, h) in side:
-				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
-			if faceBuffer >= 2:
+			if bodybuffer >= 2:
 				return True
 
 if __name__ == "__main__":
