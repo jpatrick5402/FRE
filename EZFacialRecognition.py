@@ -234,7 +234,7 @@ def detect(option, timeout=None):
 				bodybuffer = bodybuffer + 1
 
 			if bodybuffer >= 2:
-				return True
+				return full
 
 if __name__ == "__main__":
 	main()
