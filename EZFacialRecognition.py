@@ -163,11 +163,6 @@ def detect(option, timeout=None):
 
 			for (x, y, w, h) in faces:
 				faceBuffer = faceBuffer + 1
-				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
-			side = profileCascade.detectMultiScale(gray)
-			for (x, y, w, h) in side:
-				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 			if faceBuffer >= 2:
 				return faces
@@ -197,17 +192,11 @@ def detect(option, timeout=None):
 						minSize=(30, 30)
 					)
 
-			for (x, y, w, h) in faces:
-					cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
 			faceROI = gray[y:y+h,x:x+w]
 			eyes = eyeCascade.detectMultiScale(faceROI)
 			for (x2,y2,w2,h2) in eyes:
 				eye_center = (x + x2 + w2//2, y + y2 + h2//2)
 				eyeBuffer = eyeBuffer + 1
-				radius = int(round((w2 + h2)*0.25))
-				frame = cv2.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
-				
 
 			if eyeBuffer >= 2:
 				return eye_center
@@ -230,7 +219,6 @@ def detect(option, timeout=None):
 
 			full = fullCascade.detectMultiScale(gray)
 			for (x, y, w, h) in full:
-				cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 				bodybuffer = bodybuffer + 1
 
 			if bodybuffer >= 2:
