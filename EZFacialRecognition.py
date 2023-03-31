@@ -6,6 +6,7 @@ import cv2
 # def detect(option, timout=None):
 
 def main():
+	print("EZ Facial Recognition\n\n")
 	checkCameras(1)
 	giveOption()
 	return 0
