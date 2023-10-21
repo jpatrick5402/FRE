@@ -1,6 +1,6 @@
 @echo off
 
 winget install python
-pip install --upgrade pip
-pip install opencv-python-headless
-pip install auto-py-to-exe
+python3 -m pip install --upgrade pip
+python3 -m pip install opencv-python-headless
+python3 -m pip install auto-py-to-exe
