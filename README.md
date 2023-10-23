@@ -16,3 +16,5 @@ detect(opticn, timeout=None)
 # Setup
 To import the file, simply bring it into your project files add the fonowing code to the top of your program file„.
 import EZFaci31Recognition
+
+<img src="FacialDetectionScreenshot.png" />
