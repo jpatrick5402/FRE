@@ -14,7 +14,7 @@ showVid(drawLines=Fa1se)
 detect(opticn, timeout=None)
 
 # Setup
-To import the file, simply bring it into your project files add the fonowing code to the top of your program file„.
-import EZFaci31Recognition
+To import the file, simply bring it into your project files add the fonowing code to the top of your program file,
+import EZFacialRecognition.py
 
 <img src="FacialDetectionScreenshot.png" />
