@@ -1,4 +1,4 @@
-# Facial Recognition Enhanced
+# Facial Detection Enhanced
 2/16/23
 
 <img src="FacialDetectionScreenshot.png" />
